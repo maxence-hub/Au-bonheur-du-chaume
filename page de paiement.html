@@ -1,0 +1,356 @@
+<!-- ========================================= -->
+<!-- AJOUTER AVANT LA FERMETURE </body> -->
+<!-- SYSTÈME DE PAIEMENT STRIPE + DATES BLOQUÉES -->
+<!-- ========================================= -->
+
+<!-- PAGE DE PAIEMENT -->
+<div id="paymentPage" class="payment-page">
+
+  <div class="payment-container">
+
+    <h2>Paiement sécurisé</h2>
+
+    <div class="payment-summary">
+
+      <h3>Résumé de la réservation</h3>
+
+      <p><strong>Dates :</strong> <span id="summaryDates"></span></p>
+
+      <p><strong>Voyageurs :</strong> <span id="summaryGuests"></span></p>
+
+      <p><strong>Total :</strong> <span id="summaryTotal"></span></p>
+
+    </div>
+
+    <form id="payment-form">
+
+      <div class="input-group">
+        <label>Nom complet</label>
+        <input type="text" id="fullname" required>
+      </div>
+
+      <div class="input-group">
+        <label>Email</label>
+        <input type="email" id="email" required>
+      </div>
+
+      <div class="input-group">
+        <label>Carte bancaire</label>
+
+        <!-- Stripe injecte le champ CB ici -->
+        <div id="card-element"></div>
+      </div>
+
+      <button type="submit" class="btn payment-btn">
+        Payer maintenant
+      </button>
+
+      <button
+        type="button"
+        class="btn back-btn"
+        onclick="closePaymentPage()"
+      >
+        Retour
+      </button>
+
+      <div id="payment-message"></div>
+
+    </form>
+
+  </div>
+
+</div>
+
+<!-- STYLE PAGE PAIEMENT -->
+<style>
+
+.payment-page{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background:rgba(0,0,0,0.8);
+  display:none;
+  justify-content:center;
+  align-items:center;
+  z-index:9999;
+}
+
+.payment-container{
+  background:white;
+  width:95%;
+  max-width:600px;
+  padding:40px;
+  border-radius:20px;
+}
+
+.payment-container h2{
+  margin-bottom:30px;
+  text-align:center;
+}
+
+.payment-summary{
+  background:#f5f5f5;
+  padding:20px;
+  border-radius:12px;
+  margin-bottom:25px;
+}
+
+#card-element{
+  padding:15px;
+  border:1px solid #ccc;
+  border-radius:10px;
+  background:white;
+}
+
+.payment-btn{
+  width:100%;
+  margin-top:20px;
+}
+
+.back-btn{
+  width:100%;
+  margin-top:10px;
+  background:#666;
+}
+
+.back-btn:hover{
+  background:#444;
+}
+
+#payment-message{
+  margin-top:20px;
+  text-align:center;
+  font-weight:bold;
+}
+
+.flatpickr-day.reserved{
+  background:#ff385c !important;
+  color:white !important;
+  cursor:not-allowed !important;
+}
+
+</style>
+
+<!-- STRIPE -->
+<script src="https://js.stripe.com/v3/"></script>
+
+<script>
+
+  /* ===========================
+     CONFIGURATION
+  ============================ */
+
+  const stripe = Stripe("pk_live_51SCo0y5X7FZnUjY50Q5w7pa2leegDsXOi7R9gpjYqk0ZXJ89sPVbfLqFeMXS61q3k95fPQts1tfczlIu8oxPnlD100m3YlaaL1");
+
+  /*
+    Remplace :
+
+    VOTRE_CLE_PUBLIQUE_STRIPE
+
+    par ta clé publique Stripe
+  */
+
+  const elements = stripe.elements();
+
+  const card = elements.create("card");
+
+  card.mount("#card-element");
+
+  /* ===========================
+     DATES RÉSERVÉES
+  ============================ */
+
+  let reservedDates =
+    JSON.parse(localStorage.getItem("reservedDates")) || [];
+
+  /* ===========================
+     CALENDRIER
+  ============================ */
+
+  const calendar = flatpickr("#dateRange", {
+
+    mode: "range",
+
+    minDate: "today",
+
+    dateFormat: "d/m/Y",
+
+    disable: reservedDates,
+
+    onClose: function(selectedDates){
+
+      if(selectedDates.length === 2){
+
+        const start = selectedDates[0];
+
+        const end = selectedDates[1];
+
+        const diffTime = end - start;
+
+        totalNights = Math.ceil(
+          diffTime / (1000 * 60 * 60 * 24)
+        );
+
+        if(totalNights < 2){
+
+          alert(
+            "La réservation nécessite minimum 2 nuits."
+          );
+
+          document.getElementById("dateRange").value = "";
+
+          document.getElementById("totalPrice").innerText = "0€";
+
+          return;
+        }
+
+        const total = totalNights * pricePerNight;
+
+        document.getElementById("totalPrice").innerText =
+          total + "€ pour " + totalNights + " nuits";
+      }
+    }
+  });
+
+  /* ===========================
+     OUVRIR PAGE PAIEMENT
+  ============================ */
+
+  function bookNow(){
+
+    const dates =
+      document.getElementById("dateRange").value;
+
+    const guests =
+      document.getElementById("guests").value;
+
+    if(!dates){
+
+      alert("Veuillez sélectionner des dates.");
+
+      return;
+    }
+
+    if(totalNights < 2){
+
+      alert("Minimum 2 nuits.");
+
+      return;
+    }
+
+    document.getElementById(
+      "summaryDates"
+    ).innerText = dates;
+
+    document.getElementById(
+      "summaryGuests"
+    ).innerText = guests + " voyageurs";
+
+    document.getElementById(
+      "summaryTotal"
+    ).innerText =
+      (totalNights * pricePerNight) + "€";
+
+    document.getElementById(
+      "paymentPage"
+    ).style.display = "flex";
+  }
+
+  /* ===========================
+     FERMER PAGE PAIEMENT
+  ============================ */
+
+  function closePaymentPage(){
+
+    document.getElementById(
+      "paymentPage"
+    ).style.display = "none";
+  }
+
+  /* ===========================
+     PAIEMENT STRIPE
+  ============================ */
+
+  document.getElementById(
+    "payment-form"
+  ).addEventListener("submit", async (e) => {
+
+    e.preventDefault();
+
+    const message =
+      document.getElementById("payment-message");
+
+    message.innerText = "Paiement en cours...";
+
+    /*
+      IMPORTANT :
+
+      Ici il faut connecter un backend
+      Node.js / PHP / Firebase
+
+      pour créer un vrai paiement Stripe.
+
+      Exemple backend :
+      - create-payment-intent
+    */
+
+    // Simulation paiement réussi
+    setTimeout(() => {
+
+      message.style.color = "green";
+
+      message.innerText =
+        "Paiement validé ! Réservation confirmée.";
+
+      saveReservedDates();
+
+    }, 2500);
+
+  });
+
+  /* ===========================
+     SAUVEGARDE DATES
+  ============================ */
+
+  function saveReservedDates(){
+
+    const dates =
+      document.getElementById("dateRange").value;
+
+    const splitDates = dates.split(" au ");
+
+    if(splitDates.length < 2){
+
+      alert("Erreur dates.");
+
+      return;
+    }
+
+    const start = splitDates[0];
+
+    const end = splitDates[1];
+
+    reservedDates.push({
+      from: start,
+      to: end
+    });
+
+    localStorage.setItem(
+      "reservedDates",
+      JSON.stringify(reservedDates)
+    );
+
+    setTimeout(() => {
+
+      alert(
+        "Les dates ont été bloquées dans le calendrier."
+      );
+
+      location.reload();
+
+    }, 1500);
+  }
+
+</script>
