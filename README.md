@@ -1,1 +1,811 @@
-# Au-bonheur-du-chaume
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Au Bonheur du Chaume - Location Airbnb</title>
+
+  <!-- Flatpickr Calendar -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
+  <style>
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body{
+      background:#f7f7f7;
+      color:#222;
+    }
+
+    header{
+      position:fixed;
+      top:0;
+      width:100%;
+      background:white;
+      padding:15px 8%;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      box-shadow:0 2px 10px rgba(0,0,0,0.1);
+      z-index:1000;
+    }
+
+    .logo{
+      font-size:28px;
+      font-weight:bold;
+      color:#ff385c;
+    }
+
+    nav a{
+      margin-left:20px;
+      text-decoration:none;
+      color:#333;
+      font-weight:600;
+    }
+
+    .hero{
+      height:100vh;
+      background:url('https://a0.muscache.com/im/pictures/hosting/Hosting-1682725010396873915/original/549b43b6-0afb-42e9-9c82-9cfa5aa5fcf7.jpeg?im_w=960') center/cover;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
+      color:white;
+      padding:20px;
+    }
+
+    .hero-content{
+      background:rgba(0,0,0,0.45);
+      padding:40px;
+      border-radius:20px;
+      max-width:700px;
+    }
+
+    .hero h1{
+      font-size:60px;
+      margin-bottom:20px;
+    }
+
+    .hero p{
+      font-size:20px;
+      margin-bottom:30px;
+    }
+
+    .btn{
+      background:#ff385c;
+      color:white;
+      padding:15px 30px;
+      border:none;
+      border-radius:10px;
+      text-decoration:none;
+      font-size:18px;
+      cursor:pointer;
+      transition:0.3s;
+    }
+
+    .btn:hover{
+      background:#e11d48;
+    }
+
+    section{
+      padding:100px 8%;
+    }
+
+    .section-title{
+      font-size:40px;
+      margin-bottom:40px;
+      text-align:center;
+    }
+
+    .gallery{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+      gap:20px;
+    }
+
+    .gallery img{
+      width:100%;
+      height:250px;
+      object-fit:cover;
+      border-radius:15px;
+    }
+
+    .features{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+      gap:20px;
+      margin-top:40px;
+    }
+
+    .feature{
+      background:white;
+      padding:30px;
+      border-radius:15px;
+      box-shadow:0 5px 15px rgba(0,0,0,0.08);
+      text-align:center;
+    }
+
+    .feature h3{
+      margin-bottom:15px;
+      color:#ff385c;
+    }
+
+    .booking{
+      display:grid;
+      grid-template-columns:1fr 400px;
+      gap:40px;
+      align-items:start;
+    }
+
+    .booking-card{
+      background:white;
+      padding:30px;
+      border-radius:20px;
+      box-shadow:0 5px 20px rgba(0,0,0,0.1);
+      position:sticky;
+      top:100px;
+    }
+
+    .price{
+      font-size:32px;
+      font-weight:bold;
+      margin-bottom:20px;
+    }
+
+    .price span{
+      font-size:18px;
+      font-weight:normal;
+    }
+
+    .input-group{
+      margin-bottom:20px;
+    }
+
+    .input-group label{
+      display:block;
+      margin-bottom:8px;
+      font-weight:bold;
+    }
+
+    .input-group input{
+      width:100%;
+      padding:15px;
+      border:1px solid #ccc;
+      border-radius:10px;
+      font-size:16px;
+    }
+
+    .total{
+      margin:20px 0;
+      font-size:22px;
+      font-weight:bold;
+    }
+
+    .info-min{
+      color:#666;
+      font-size:14px;
+      margin-top:-10px;
+      margin-bottom:20px;
+    }
+
+    footer{
+      background:#111;
+      color:white;
+      text-align:center;
+      padding:40px;
+    }
+
+    @media(max-width:900px){
+
+      .hero h1{
+        font-size:40px;
+      }
+
+      .booking{
+        grid-template-columns:1fr;
+      }
+
+      .booking-card{
+        position:relative;
+        top:0;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="logo">Au Bonheur du Chaume</div>
+
+    <nav>
+      <a href="#photos">Photos</a>
+      <a href="#equipements">Équipements</a>
+      <a href="#reservation">Réservation</a>
+    </nav>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1>Au Bonheur du Chaume</h1>
+
+      <p>
+        Profitez d’une maison chaleureuse et spacieuse pour
+        vos vacances en famille ou entre amis au coeur de la normandie.
+      </p>
+
+      <a href="#reservation" class="btn">Réserver maintenant</a>
+    </div>
+  </section>
+
+  <!-- PHOTOS -->
+  <section id="photos">
+    <h2 class="section-title">Galerie Photos</h2>
+
+    <div class="gallery">
+      <img src="https://a0.muscache.com/im/pictures/hosting/Hosting-1682725010396873915/original/7fcb04d9-199f-492f-96a7-84933350ffcd.jpeg?im_w=960">
+      <img src="https://a0.muscache.com/im/pictures/hosting/Hosting-1682725010396873915/original/070edd9d-3653-483b-9e2f-2340a06075ee.jpeg?im_w=960">
+      <img src="https://a0.muscache.com/im/pictures/hosting/Hosting-1682725010396873915/original/57bf3451-a026-4673-ab81-1fb8df8d9529.jpeg?im_w=960">
+      <img src="https://a0.muscache.com/im/pictures/hosting/Hosting-1682725010396873915/original/79d8bb2c-a7ff-4cfd-8c99-e2622666cb5c.jpeg?im_w=960">
+	  <img src="https://a0.muscache.com/im/pictures/hosting/Hosting-1682725010396873915/original/8413ddeb-cf7f-49a9-a5d8-a17550babc07.jpeg?im_w=960">
+      <img src="https://a0.muscache.com/im/pictures/hosting/Hosting-1682725010396873915/original/fae9e83d-62ad-4af6-8e6c-594d417b71b2.jpeg?im_w=960">
+      <img src="https://a0.muscache.com/im/pictures/hosting/Hosting-1682725010396873915/original/4eaa6198-013f-4a20-bf41-3cb269b6f0b2.jpeg?im_w=960">
+      <img src="https://a0.muscache.com/im/pictures/hosting/Hosting-1682725010396873915/original/d73f6366-e174-4b65-905e-4d0a345c39b2.jpeg?im_w=960">
+	  <img src="https://a0.muscache.com/im/pictures/hosting/Hosting-1682725010396873915/original/99d61f11-b948-4fa3-8687-1fe0864eafd9.jpeg?im_w=960">
+      <img src="https://a0.muscache.com/im/pictures/hosting/Hosting-1682725010396873915/original/475fe10d-a49a-4a08-9e0e-11d0dabe6c17.jpeg?im_w=960">
+      <img src="https://a0.muscache.com/im/pictures/hosting/Hosting-1682725010396873915/original/a666e37a-120c-4578-9999-7c00c885d94f.jpeg?im_w=960">
+      <img src="https://a0.muscache.com/im/pictures/hosting/Hosting-1682725010396873915/original/4c9c02b9-cc07-4c3f-b0a5-84352de41895.jpeg?im_w=960">
+	  <img src="https://a0.muscache.com/im/pictures/hosting/Hosting-1682725010396873915/original/e4c7b217-0233-418c-b027-fa3a4e275616.jpeg?im_w=960">
+      <img src="https://a0.muscache.com/im/pictures/hosting/Hosting-1682725010396873915/original/8ef9fdc0-196a-4951-a859-7a18bf5723aa.jpeg?im_w=960">
+      <img src="https://a0.muscache.com/im/pictures/hosting/Hosting-1682725010396873915/original/73df690b-3ebf-45f4-9927-0e3b63a3dd89.jpeg?im_w=960">
+      <img src="https://a0.muscache.com/im/pictures/hosting/Hosting-1682725010396873915/original/43e7cbb4-2d1e-402d-9a99-f675a72d083a.jpeg?im_w=960">
+    </div>
+  </section>
+
+  <!-- ÉQUIPEMENTS -->
+  <section id="equipements">
+    <h2 class="section-title">Équipements</h2>
+
+    <div class="features">
+
+      <div class="feature">
+        <h3>🏊 Spa privé</h3>
+        <p>Spa accessible pendant toute la saison.</p>
+      </div>
+
+      <div class="feature">
+        <h3>📶 Wifi Fibre</h3>
+        <p>Connexion rapide incluse dans la location.</p>
+      </div>
+
+      <div class="feature">
+        <h3>🚗 Parking gratuit</h3>
+        <p>Places de stationnement privées et sécurisées.</p>
+      </div>
+
+      <div class="feature">
+        <h3>🍳 Cuisine équipée</h3>
+        <p>Tout le nécessaire pour cuisiner sur place.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- RÉSERVATION -->
+  <section id="reservation">
+
+    <h2 class="section-title">Réservez votre séjour</h2>
+
+    <div class="booking">
+
+      <div>
+
+        <h3 style="margin-bottom:20px;font-size:30px;">
+          Maison entière · 8 voyageurs · 3 chambres
+        </h3>
+
+        <p style="line-height:1.8;font-size:18px;">
+          Découvrez une maison spacieuse et confortable parfaite pour
+          accueillir jusqu’à 8 personnes. Idéalement située pour profiter
+          du calme et de moments conviviaux.
+        </p>
+
+      </div>
+
+      <div class="booking-card">
+
+        <div class="price">
+          185€ <span>/ nuit</span>
+        </div>
+
+        <div class="input-group">
+          <label>Dates du séjour</label>
+
+          <input
+            type="text"
+            id="dateRange"
+            placeholder="Choisir les dates"
+          >
+        </div>
+
+        <div class="info-min">
+          Minimum 2 nuits obligatoires
+        </div>
+
+        <div class="input-group">
+          <label>Voyageurs</label>
+
+          <input
+            type="number"
+            id="guests"
+            value="2"
+            min="1"
+            max="8"
+          >
+        </div>
+
+        <div class="total">
+          Total : <span id="totalPrice">0€</span>
+        </div>
+
+        <button
+          class="btn"
+          style="width:100%;"
+          onclick="bookNow()"
+        >
+          Réserver
+        </button>
+
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <h3>Au Bonheur du Chaume</h3>
+    <p>Location saisonnière premium</p>
+	<p>Lien Airbnb: </p>
+    <p>Email : aubonheurduchaume@gmail.com</p>
+  </footer>
+
+  <!-- Flatpickr -->
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+  <script>
+
+    const pricePerNight = 185;
+
+    let totalNights = 0;
+
+    flatpickr("#dateRange", {
+
+      mode: "range",
+      minDate: "today",
+      dateFormat: "d/m/Y",
+
+      onClose: function(selectedDates){
+
+        if(selectedDates.length === 2){
+
+          const start = selectedDates[0];
+          const end = selectedDates[1];
+
+          const diffTime = end - start;
+
+          totalNights = Math.ceil(
+            diffTime / (1000 * 60 * 60 * 24)
+          );
+
+          if(totalNights < 2){
+
+            alert(
+              "La réservation nécessite un minimum de 2 nuits."
+            );
+
+            document.getElementById("dateRange").value = "";
+            document.getElementById("totalPrice").innerText = "0€";
+
+            return;
+          }
+
+          const total = totalNights * pricePerNight;
+
+          document.getElementById("totalPrice").innerText =
+            total + "€ pour " + totalNights + " nuits";
+        }
+      }
+    });
+
+    function bookNow(){
+
+      const dates = document.getElementById("dateRange").value;
+      const guests = document.getElementById("guests").value;
+
+      if(!dates){
+
+        alert("Veuillez sélectionner des dates.");
+
+        return;
+      }
+
+      if(totalNights < 2){
+
+        alert(
+          "Le séjour minimum est de 2 nuits."
+        );
+
+        return;
+      }
+
+      alert(
+        "Réservation confirmée !\n\n" +
+        "Dates : " + dates + "\n" +
+        "Voyageurs : " + guests + "\n" +
+        "Total : " +
+        (totalNights * pricePerNight) +
+        "€"
+      );
+    }
+
+  </script>
+<!-- ========================================= -->
+<!-- AJOUTER AVANT LA FERMETURE </body> -->
+<!-- SYSTÈME DE PAIEMENT STRIPE + DATES BLOQUÉES -->
+<!-- ========================================= -->
+
+<!-- PAGE DE PAIEMENT -->
+<div id="paymentPage" class="payment-page">
+
+  <div class="payment-container">
+
+    <h2>Paiement sécurisé</h2>
+
+    <div class="payment-summary">
+
+      <h3>Résumé de la réservation</h3>
+
+      <p><strong>Dates :</strong> <span id="summaryDates"></span></p>
+
+      <p><strong>Voyageurs :</strong> <span id="summaryGuests"></span></p>
+
+      <p><strong>Total :</strong> <span id="summaryTotal"></span></p>
+
+    </div>
+
+    <form id="payment-form">
+
+      <div class="input-group">
+        <label>Nom complet</label>
+        <input type="text" id="fullname" required>
+      </div>
+
+      <div class="input-group">
+        <label>Email</label>
+        <input type="email" id="email" required>
+      </div>
+
+      <div class="input-group">
+        <label>Carte bancaire</label>
+
+        <!-- Stripe injecte le champ CB ici -->
+        <div id="card-element"></div>
+      </div>
+
+      <button type="submit" class="btn payment-btn">
+        Payer maintenant
+      </button>
+
+      <button
+        type="button"
+        class="btn back-btn"
+        onclick="closePaymentPage()"
+      >
+        Retour
+      </button>
+
+      <div id="payment-message"></div>
+
+    </form>
+
+  </div>
+
+</div>
+
+<!-- STYLE PAGE PAIEMENT -->
+<style>
+
+.payment-page{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background:rgba(0,0,0,0.8);
+  display:none;
+  justify-content:center;
+  align-items:center;
+  z-index:9999;
+}
+
+.payment-container{
+  background:white;
+  width:95%;
+  max-width:600px;
+  padding:40px;
+  border-radius:20px;
+}
+
+.payment-container h2{
+  margin-bottom:30px;
+  text-align:center;
+}
+
+.payment-summary{
+  background:#f5f5f5;
+  padding:20px;
+  border-radius:12px;
+  margin-bottom:25px;
+}
+
+#card-element{
+  padding:15px;
+  border:1px solid #ccc;
+  border-radius:10px;
+  background:white;
+}
+
+.payment-btn{
+  width:100%;
+  margin-top:20px;
+}
+
+.back-btn{
+  width:100%;
+  margin-top:10px;
+  background:#666;
+}
+
+.back-btn:hover{
+  background:#444;
+}
+
+#payment-message{
+  margin-top:20px;
+  text-align:center;
+  font-weight:bold;
+}
+
+.flatpickr-day.reserved{
+  background:#ff385c !important;
+  color:white !important;
+  cursor:not-allowed !important;
+}
+
+</style>
+
+<!-- STRIPE -->
+<script src="https://js.stripe.com/v3/"></script>
+
+<script>
+
+  /* ===========================
+     CONFIGURATION
+  ============================ */
+
+  const stripe = Stripe("pk_live_51SCo0y5X7FZnUjY50Q5w7pa2leegDsXOi7R9gpjYqk0ZXJ89sPVbfLqFeMXS61q3k95fPQts1tfczlIu8oxPnlD100m3YlaaL1");
+
+  /*
+    Remplace :
+
+    VOTRE_CLE_PUBLIQUE_STRIPE
+
+    par ta clé publique Stripe
+  */
+
+  const elements = stripe.elements();
+
+  const card = elements.create("card");
+
+  card.mount("#card-element");
+
+  /* ===========================
+     DATES RÉSERVÉES
+  ============================ */
+
+  let reservedDates =
+    JSON.parse(localStorage.getItem("reservedDates")) || [];
+
+  /* ===========================
+     CALENDRIER
+  ============================ */
+
+  const calendar = flatpickr("#dateRange", {
+
+    mode: "range",
+
+    minDate: "today",
+
+    dateFormat: "d/m/Y",
+
+    disable: reservedDates,
+
+    onClose: function(selectedDates){
+
+      if(selectedDates.length === 2){
+
+        const start = selectedDates[0];
+
+        const end = selectedDates[1];
+
+        const diffTime = end - start;
+
+        totalNights = Math.ceil(
+          diffTime / (1000 * 60 * 60 * 24)
+        );
+
+        if(totalNights < 2){
+
+          alert(
+            "La réservation nécessite minimum 2 nuits."
+          );
+
+          document.getElementById("dateRange").value = "";
+
+          document.getElementById("totalPrice").innerText = "0€";
+
+          return;
+        }
+
+        const total = totalNights * pricePerNight;
+
+        document.getElementById("totalPrice").innerText =
+          total + "€ pour " + totalNights + " nuits";
+      }
+    }
+  });
+
+  /* ===========================
+     OUVRIR PAGE PAIEMENT
+  ============================ */
+
+  function bookNow(){
+
+    const dates =
+      document.getElementById("dateRange").value;
+
+    const guests =
+      document.getElementById("guests").value;
+
+    if(!dates){
+
+      alert("Veuillez sélectionner des dates.");
+
+      return;
+    }
+
+    if(totalNights < 2){
+
+      alert("Minimum 2 nuits.");
+
+      return;
+    }
+
+    document.getElementById(
+      "summaryDates"
+    ).innerText = dates;
+
+    document.getElementById(
+      "summaryGuests"
+    ).innerText = guests + " voyageurs";
+
+    document.getElementById(
+      "summaryTotal"
+    ).innerText =
+      (totalNights * pricePerNight) + "€";
+
+    document.getElementById(
+      "paymentPage"
+    ).style.display = "flex";
+  }
+
+  /* ===========================
+     FERMER PAGE PAIEMENT
+  ============================ */
+
+  function closePaymentPage(){
+
+    document.getElementById(
+      "paymentPage"
+    ).style.display = "none";
+  }
+
+  /* ===========================
+     PAIEMENT STRIPE
+  ============================ */
+
+  document.getElementById(
+    "payment-form"
+  ).addEventListener("submit", async (e) => {
+
+    e.preventDefault();
+
+    const message =
+      document.getElementById("payment-message");
+
+    message.innerText = "Paiement en cours...";
+
+    /*
+      IMPORTANT :
+
+      Ici il faut connecter un backend
+      Node.js / PHP / Firebase
+
+      pour créer un vrai paiement Stripe.
+
+      Exemple backend :
+      - create-payment-intent
+    */
+
+    // Simulation paiement réussi
+    setTimeout(() => {
+
+      message.style.color = "green";
+
+      message.innerText =
+        "Paiement validé ! Réservation confirmée.";
+
+      saveReservedDates();
+
+    }, 2500);
+
+  });
+
+  /* ===========================
+     SAUVEGARDE DATES
+  ============================ */
+
+  function saveReservedDates(){
+
+    const dates =
+      document.getElementById("dateRange").value;
+
+    const splitDates = dates.split(" au ");
+
+    if(splitDates.length < 2){
+
+      alert("Erreur dates.");
+
+      return;
+    }
+
+    const start = splitDates[0];
+
+    const end = splitDates[1];
+
+    reservedDates.push({
+      from: start,
+      to: end
+    });
+
+    localStorage.setItem(
+      "reservedDates",
+      JSON.stringify(reservedDates)
+    );
+
+    setTimeout(() => {
+
+      alert(
+        "Les dates ont été bloquées dans le calendrier."
+      );
+
+      location.reload();
+
+    }, 1500);
+  }
+
+</script>
+</body>
+</html>
