@@ -355,7 +355,7 @@
         <button
           class="btn"
           style="width:100%;"
-          onclick="bookNow()"
+          onclick="goToStripe()"
         >
           Réserver
         </button>
@@ -367,7 +367,7 @@
   <footer>
     <h3>Au Bonheur du Chaume</h3>
     <p>Location saisonnière premium</p>
-	<p>Lien Airbnb: </p>
+	<p>Lien Airbnb: https://www.airbnb.fr/rooms/1682725010396873915?search_mode=regular_search&adults=1&check_in=2026-05-17&check_out=2026-05-22&children=0&infants=0&pets=0&source_impression_id=p3_1778705326_P3O7adH3srVH-7QX&previous_page_section_name=1000&federated_search_id=a87313af-d086-474a-aff6-c47d40894f10 </p>
     <p>Email : aubonheurduchaume@gmail.com</p>
   </footer>
 
@@ -494,9 +494,14 @@
         <div id="card-element"></div>
       </div>
 
-      <button type="submit" class="btn payment-btn">
+      <a
+        href="https://book.stripe.com/4gM28keFrcH76vifB1bfO04"
+        target="_blank"
+        class="btn payment-btn"
+        style="display:block;text-align:center;margin-top:20px;"
+      >
         Payer maintenant
-      </button>
+      </a>
 
       <button
         type="button"
@@ -671,13 +676,10 @@
      OUVRIR PAGE PAIEMENT
   ============================ */
 
-  function bookNow(){
+  function goToStripe(){
 
     const dates =
       document.getElementById("dateRange").value;
-
-    const guests =
-      document.getElementById("guests").value;
 
     if(!dates){
 
@@ -693,22 +695,10 @@
       return;
     }
 
-    document.getElementById(
-      "summaryDates"
-    ).innerText = dates;
-
-    document.getElementById(
-      "summaryGuests"
-    ).innerText = guests + " voyageurs";
-
-    document.getElementById(
-      "summaryTotal"
-    ).innerText =
-      (totalNights * pricePerNight) + "€";
-
-    document.getElementById(
-      "paymentPage"
-    ).style.display = "flex";
+    window.open(
+      "https://book.stripe.com/4gM28keFrcH76vifB1bfO04",
+      "_blank"
+    );
   }
 
   /* ===========================
