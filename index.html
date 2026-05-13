@@ -353,12 +353,12 @@
         </div>
 
         <button
-  class="btn"
-  style="width:100%;"
-  onclick="goToStripe()"
->
-  Réserver
-</button>
+          class="btn"
+          style="width:100%;"
+          onclick="goToStripe()"
+        >
+          Réserver
+        </button>
 
       </div>
     </div>
@@ -494,9 +494,14 @@
         <div id="card-element"></div>
       </div>
 
-      <button type="submit" class="btn payment-btn">
+      <a
+        href="https://book.stripe.com/4gM28keFrcH76vifB1bfO04"
+        target="_blank"
+        class="btn payment-btn"
+        style="display:block;text-align:center;margin-top:20px;"
+      >
         Payer maintenant
-      </button>
+      </a>
 
       <button
         type="button"
@@ -671,13 +676,10 @@
      OUVRIR PAGE PAIEMENT
   ============================ */
 
-  function bookNow(){
+  function goToStripe(){
 
     const dates =
       document.getElementById("dateRange").value;
-
-    const guests =
-      document.getElementById("guests").value;
 
     if(!dates){
 
@@ -693,22 +695,10 @@
       return;
     }
 
-    document.getElementById(
-      "summaryDates"
-    ).innerText = dates;
-
-    document.getElementById(
-      "summaryGuests"
-    ).innerText = guests + " voyageurs";
-
-    document.getElementById(
-      "summaryTotal"
-    ).innerText =
-      (totalNights * pricePerNight) + "€";
-
-    document.getElementById(
-      "paymentPage"
-    ).style.display = "flex";
+    window.open(
+      "https://book.stripe.com/4gM28keFrcH76vifB1bfO04",
+      "_blank"
+    );
   }
 
   /* ===========================
